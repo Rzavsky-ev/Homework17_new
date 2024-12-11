@@ -2,58 +2,40 @@ package org.skypro.skyshop.searchService;
 
 import org.skypro.skyshop.exceptions.BestResultNotFound;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchEngine {
-    public Searchable[] listSearchable;
-    private final int SIZE_LIST;
 
-    public SearchEngine(int sizeList) {
-        SIZE_LIST = sizeList;
-        listSearchable = new Searchable[SIZE_LIST];
-    }
+    private List<Searchable> listSearchable = new ArrayList<>();
 
-    public Searchable[] search(String contentType) {
-        Searchable[] searchResult = new Searchable[5];
-        int counter = 0;
+    public List<Searchable> search(String contentType) {
+        List<Searchable> searchResult = new ArrayList<>();
         for (Searchable searchable : listSearchable) {
-            if (searchable == null) {
-                break;
-            }
             if (searchable.getContentType().contains(contentType)) {
-                searchResult[counter] = searchable;
-                counter++;
-                if (counter == 5) {
-                    break;
-                }
+                searchResult.add(searchable);
             }
         }
         return searchResult;
     }
 
     public void add(Searchable searchable) {
-        for (int i = 0; i < listSearchable.length; i++) {
-            if (listSearchable[i] == null) {
-                listSearchable[i] = searchable;
-                break;
-            }
-        }
+        listSearchable.add(searchable);
     }
 
     public Searchable searchForMostSuitable(String search) throws BestResultNotFound {
         int counter = 0;
         int index = -1;
-        for (int i = 0; i < listSearchable.length; i++) {
-            if (listSearchable[i] == null) {
-                break;
-            }
-            if (countOccurrences(search, listSearchable[i].getSearchTerm()) > counter) {
-                counter = countOccurrences(listSearchable[i].getSearchTerm(), search);
+        for (int i = 0; i < listSearchable.size(); i++) {
+            if (countOccurrences(search, listSearchable.get(i).getSearchTerm()) > counter) {
+                counter = countOccurrences(listSearchable.get(i).getSearchTerm(), search);
                 index = i;
             }
         }
         if (index == -1) {
             throw new BestResultNotFound("Лучший результат не найден.");
         }
-        return listSearchable[index];
+        return listSearchable.get(index);
     }
 
     private int countOccurrences(String search, String searchTerm) {
