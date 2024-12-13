@@ -26,6 +26,8 @@ public abstract class Product implements Searchable {
         return nameProduct;
     }
 
+    public abstract String toString();
+
     public abstract int getPriceProduct();
 
     public abstract boolean isSpecial();
