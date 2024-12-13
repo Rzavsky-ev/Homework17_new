@@ -3,48 +3,41 @@ package org.skypro.skyshop.searchService;
 import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class SearchEngine {
+    private Set<Searchable> setSearchable = new HashSet<>();
 
-    private List<Searchable> listSearchable = new ArrayList<>();
-
-    public Map<String, Searchable> search(String contentType) {
-        Map<String, Searchable> searchResult = new TreeMap<>();
-        for (Searchable searchable : listSearchable) {
-            if (searchable.getContentType().contains(contentType)) {
-                searchResult.put(searchable.getSearchTerm(), searchable);
-            }
-        }
-        return searchResult;
+    public Set<Searchable> search() {
+        Set<Searchable> resultSearch = new TreeSet<>(new NameComparator());
+        resultSearch.addAll(setSearchable);
+        return resultSearch;
     }
 
-    public void printSearch(Map<String, Searchable> searchResult) {
-        for (Map.Entry<String, Searchable> search : searchResult.entrySet()) {
-            System.out.println(search.getValue().getSearchTerm());
+    public void printSearch(Set<Searchable> search) {
+        for (Searchable p : search) {
+            System.out.println(p.getSearchTerm());
         }
     }
+
 
     public void add(Searchable searchable) {
-        listSearchable.add(searchable);
+        setSearchable.add(searchable);
     }
 
     public Searchable searchForMostSuitable(String search) throws BestResultNotFound {
         int counter = 0;
-        int index = -1;
-        for (int i = 0; i < listSearchable.size(); i++) {
-            if (countOccurrences(search, listSearchable.get(i).getSearchTerm()) > counter) {
-                counter = countOccurrences(listSearchable.get(i).getSearchTerm(), search);
-                index = i;
+        Searchable result = null;
+        for (Searchable searchable : setSearchable) {
+            if (countOccurrences(search, searchable.getSearchTerm()) > counter) {
+                counter = countOccurrences(searchable.getSearchTerm(), search);
+                result = searchable;
             }
         }
-        if (index == -1) {
+        if (result == null) {
             throw new BestResultNotFound("Лучший результат не найден.");
         }
-        return listSearchable.get(index);
+        return result;
     }
 
     private int countOccurrences(String search, String searchTerm) {
@@ -57,5 +50,15 @@ public class SearchEngine {
             indexSubstring = searchTerm.indexOf(search, index);
         }
         return counter;
+    }
+
+    private static class NameComparator implements Comparator<Searchable> {
+        @Override
+        public int compare(Searchable o1, Searchable o2) {
+            if (Integer.compare(o1.getSearchTerm().length(), o2.getSearchTerm().length()) != 0) {
+                return Integer.compare(o1.getSearchTerm().length(), o2.getSearchTerm().length());
+            }
+            return o1.getSearchTerm().compareTo(o2.getSearchTerm());
+        }
     }
 }
