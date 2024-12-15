@@ -10,8 +10,10 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.searchService.SearchEngine;
 import org.skypro.skyshop.searchService.Searchable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class App {
     public static void main(String[] args) {
@@ -37,10 +39,10 @@ public class App {
 */
         SearchEngine searchEngine = new SearchEngine();
         //проверка метода searchForMostSuitable
-        Product apple = new SimpleProduct("аааааа", 10);
-        Product pear = new SimpleProduct("мм", 100);
-        Product banana = new DiscountedProduct("бб", 30, 10);
-        Product plum = new FixPriceProduct("Сл");
+        Product apple = new SimpleProduct("Б", 10);
+        Product pear = new SimpleProduct("Л", 100);
+        Product banana = new DiscountedProduct("А", 30, 10);
+        Product plum = new FixPriceProduct("Д");
         Article article = new Article();
 
         searchEngine.add(apple);
@@ -72,7 +74,7 @@ public class App {
         }
 */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*
+
         //Проверка корзины
         System.out.println();
         System.out.println("Проверка корзины");
@@ -89,18 +91,18 @@ public class App {
         //вывод содержимого корзины
         basket.printBasket();
 
-        //удаление продукта из корзины
-        basket.removeProduct("Яблоко");
+//        //удаление продукта из корзины
+//        basket.removeProduct("Яблоко");
+//
+//        //поиск существующего продукта
+//        System.out.println(basket.checkAvailability("Банан"));
+//
+//        //поиск удаленного продукта
+//        System.out.println(basket.checkAvailability("Яблоко"));
+//
+//        System.out.println();
+//        //вывод корзины
+//        basket.printBasket();
 
-        //поиск существующего продукта
-        System.out.println(basket.checkAvailability("Банан"));
-
-        //поиск удаленного продукта
-        System.out.println(basket.checkAvailability("Яблоко"));
-
-        System.out.println();
-        //вывод корзины
-        basket.printBasket();
-*/
     }
 }

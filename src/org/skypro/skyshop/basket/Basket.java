@@ -24,31 +24,26 @@ public class Basket {
     }
 
     public int calculateBasketAmount() {
-        int total = 0;
-        for (Map.Entry<String, List<Product>> product : products.entrySet()) {
-            for (Product productList : product.getValue()) {
-                total += productList.getPriceProduct();
-            }
-        }
-        return total;
+        return products.entrySet().stream().flatMap(entry -> entry.getValue().stream()).
+                mapToInt(Product::getPriceProduct).sum();
     }
 
     public void printBasket() {
         if (!products.isEmpty()) {
-            int counter = 0;
-            for (Map.Entry<String, List<Product>> product : products.entrySet()) {
-                for (Product productList : product.getValue()) {
-                    if (productList.isSpecial()) {
-                        counter++;
-                    }
-                    System.out.println(productList.toString());
-                }
-            }
+
+            products.entrySet().stream().flatMap(entry -> entry.getValue().stream()).forEach(entry -> {
+                System.out.println(entry.toString());
+            });
             System.out.println("Итого:" + calculateBasketAmount());
-            System.out.println("Специальных товаров:" + counter);
+            System.out.println("Специальных товаров:" + getSpecialCount());
         } else {
             System.out.println("Корзина пуста");
         }
+    }
+
+    private long getSpecialCount() {
+        return products.entrySet().stream().flatMap(entry -> entry.getValue().stream()).
+                filter(Product::isSpecial).count();
     }
 
     public boolean checkAvailability(String name) {

@@ -1,17 +1,17 @@
 package org.skypro.skyshop.searchService;
 
 import org.skypro.skyshop.exceptions.BestResultNotFound;
-import org.skypro.skyshop.product.Product;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     private Set<Searchable> setSearchable = new HashSet<>();
 
     public Set<Searchable> search() {
-        Set<Searchable> resultSearch = new TreeSet<>(new NameComparator());
-        resultSearch.addAll(setSearchable);
-        return resultSearch;
+        Supplier<TreeSet<Searchable>> supplier = () -> new TreeSet<>(new NameComparator());
+        return setSearchable.stream().collect(Collectors.toCollection(supplier));
     }
 
     public void printSearch(Set<Searchable> search) {
@@ -60,5 +60,19 @@ public class SearchEngine {
             }
             return o1.getSearchTerm().compareTo(o2.getSearchTerm());
         }
+
+
+
+
+
+        /*
+        Для этого напишите лямбда-выражение, которое реализует
+Supplier
+ и возвращает нужный нам
+TreeSet
+ с компаратором. В остальном цепочка будет похожа на изученную ранее цепочку
+filter().collect()
+.
+         */
     }
 }
