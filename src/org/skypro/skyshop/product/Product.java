@@ -26,10 +26,34 @@ public abstract class Product implements Searchable {
         return nameProduct;
     }
 
+    @Override
     public abstract String toString();
 
     public abstract int getPriceProduct();
 
     public abstract boolean isSpecial();
+
+    @Override
+    public boolean equals(Object obj) {
+        // Проверка на null
+        if (obj == null) {
+            return false;
+        }
+        // Проверка на тип
+        if (!(obj instanceof Product)) {
+            return false;
+        }
+        // Приведение к типу Person
+        Product other = (Product) obj;
+        return this.getNameProduct().equals(other.getNameProduct());
+    }
+
+    @Override
+    public int hashCode() {
+        if (nameProduct == null) {
+            return 0;
+        }
+        return nameProduct.hashCode();
+    }
 
 }

@@ -37,10 +37,10 @@ public class App {
 */
         SearchEngine searchEngine = new SearchEngine();
         //проверка метода searchForMostSuitable
-        Product apple = new SimpleProduct("Яблоко", 10);
-        Product pear = new SimpleProduct("Груша", 100);
-        Product banana = new DiscountedProduct("Банан", 30, 10);
-        Product plum = new FixPriceProduct("Слива");
+        Product apple = new SimpleProduct("аааааа", 10);
+        Product pear = new SimpleProduct("мм", 100);
+        Product banana = new DiscountedProduct("бб", 30, 10);
+        Product plum = new FixPriceProduct("Сл");
         Article article = new Article();
 
         searchEngine.add(apple);
@@ -53,8 +53,8 @@ public class App {
         searchEngine.add(article);
         searchEngine.add(plum);
 
-        searchEngine.printSearch(searchEngine.search("PRODUCT"));
 
+        searchEngine.printSearch(searchEngine.search());
 
         /*
         //когда объект существует
@@ -72,6 +72,7 @@ public class App {
         }
 */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /*
         //Проверка корзины
         System.out.println();
         System.out.println("Проверка корзины");
@@ -100,7 +101,6 @@ public class App {
         System.out.println();
         //вывод корзины
         basket.printBasket();
-
-
+*/
     }
 }
